@@ -47,6 +47,14 @@ Host *
   IdentityFile ~/.ssh/<ssh_key_filename>
 ```
 
+## Clone this repo to your server
+
+Clone this repo to your server by doing:
+
+```
+git pull https://github.com/cryptogogue/vol-node-cpp-ops.git
+```
+
 ## Configuring HTTPS/SSL
 
 To use HTTPS/SSL you will need a domain name. You will need to update the CNAME and A records in your domain's DNS to point at the public IP address of the server running your node. Procuring a domain name is outside of the scope of this document.
