@@ -142,7 +142,7 @@ chmod 600 $DOCKERDIR/traefik2/acme/acme.json
 Copy the rule files into the traefik2/rules directory.
 
 ```
-cp traefik2/rules/* $DOCKERDIR/traefik2/rules
+cp traefik2/rules/* $DOCKERDIR/traefik2/rules/
 ```
 
 Edit middlewares.toml and replace `[YOURDOMAINHERE]` with your root domain.
@@ -213,7 +213,7 @@ Generate the mining keys with the helper script:
 ./make-keys.sh $DOCKERDIR/volition/keys
 ```
 
-The keys will be placed $DOCKERDIR/volition/keys. After running the script, you should have two sets of .pem files: one for mining and one for mining node control.
+The keys will be placed in $DOCKERDIR/volition/keys. After running the script, you should have two sets of .pem files: one for mining and one for mining node control.
 
 Finally, use curl to fetch the genesis block:
 
