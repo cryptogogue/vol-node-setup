@@ -1,0 +1,9 @@
+control-key                 = /var/lib/volition/keys/control.pub.pem
+control-level               = config
+genesis                     = /var/lib/volition/genesis.json
+keyfile                     = /var/lib/volition/keys/mining.priv.pem
+openSSL.client.caConfig     = /etc/ssl/certs
+persist                     = /var/lib/volition/persist-chain
+port                        = 9090
+
+miner                       = my-miner-id
