@@ -185,8 +185,8 @@ Uncomment out the following lines from the docker-compose file.
     image: oznu/cloudflare-ddns:latest
     restart: unless-stopped
     environment:
-      - EMAIL=${CLOUDFLARE_EMAIL}
-      - API_KEY=${CLOUDFLARE_API_KEY}
+      - EMAIL=$CLOUDFLARE_EMAIL
+      - API_KEY=$CLOUDFLARE_API_KEY
       - ZONE=cuken.net
       - PROXIED=false
 ```
