@@ -122,7 +122,7 @@ Find a spot on your server where you'd like the docker container data to persist
 
 > **Run these commands from the root of this repository**
 
- 
+
 Create the required folders for the docker volition stack.
 
 ```
@@ -147,7 +147,7 @@ cp traefik2/rules/* $DOCKERDIR/traefik2/rules
 
 Edit middlewares.toml and replace `[YOURDOMAINHERE]` with your root domain.
 (example: `customFrameOptionsValue = "allow-from https:[YOURDOMAINHERE]"`
- -> `customFrameOptionsValue = "allow-from https:cuken.net"`) (Do not include http(s))
+ -> `customFrameOptionsValue = "allow-from https:cuken.net"`) (Do not include // in the url)
 
 Copy the enviornment file into the docker data directory
 
