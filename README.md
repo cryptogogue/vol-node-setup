@@ -171,7 +171,7 @@ Copy the docker-compose.yml into the docker data directory
 cp docker-compose.yml $DOCKERDIR/docker-compose.yml
 ```
 
-> If your server does not have a static IP Follow the DDNS Setup Instructions. 
+**If your server does not have a static IP Follow the DDNS Setup Instructions.**
 
 ### DDNS Setup
 
