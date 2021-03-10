@@ -147,6 +147,12 @@ touch $DOCKERDIR/traefik2/acme/acme.json
 chmod 600 $DOCKERDIR/traefik2/acme/acme.json
 ```
 
+Create the traefik log file
+
+```
+touch $DOCKERDIR/traefik2/traefik.log
+```
+
 Copy the rule files into the traefik2/rules directory.
 
 ```
