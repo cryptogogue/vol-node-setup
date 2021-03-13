@@ -4,11 +4,15 @@ This guide assumes you are running Ubuntu or a similar flavor of Linux.
 
 Before you begin, make sure you have an active account on whatever Volition network you plan to join and have the genesis block for that network. When you start mining, you will need someone to upgrade your regular account to a mining account.
 
-Commands listed in blocks shown below should be ran on the server hosting the volition mining node:
+Commands listed in blocks shown below should be run on the server hosting the volition mining node:
 
 ```
 example
 ```
+
+## Provision Your Volition Account
+
+If you don't already have one, or if you want to use a different account for mining, provision a new Volition account and rename it to whatever you want to use as your miner name. Volition will eventually support renaming mining accounts, but for beta it does not, so be sure your account is named what you want it to be.
 
 ## Stack Description
 
@@ -22,53 +26,24 @@ Currently the docker-compose stack consists of:
 - Volition (volition node miner)
 - CloudFlare DDNS (Updates CloudFlare with your most recent public IP) [`only needed if your server does not have a static ip`]
 
+We use [traefik](https://traefik.io) as a reverse proxy to route requests into your volition mining node. Traefik will create subdomains per our docker containers and use LetsEncrypt to issue our SSL certificates. To validate domain owenrship, we'll use LetsEcnrypts CloudFlare DNS challenge.
+
 ## Prereqs
 
 - A domain name
 - Genesis block for the volition miner
 - Port 443 open on the server used to host the mining node
 
-## Prepare Your Server
-
-```
-sudo apt update
-```
-```
-sudo apt install curl docker docker-compose git openssl vim
-```
-
-Also, [set up an SSH key](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) for use with github.
-
-You may need to create an \~/.ssh/config file:
-
-```
-Host *
-  AddKeysToAgent yes
-  IdentityFile ~/.ssh/<ssh_key_filename>
-```
-
-## Clone this repo to your server
-
-Clone this repo to your server by doing:
-
-```
-git pull https://github.com/cryptogogue/vol-node-cpp-ops.git
-```
-
-## Configuring HTTPS/SSL
-
-To use HTTPS/SSL you will need a domain name. You will need to update the CNAME and A records in your domain's DNS to point at the public IP address of the server running your node. Procuring a domain name is outside of the scope of this document.
-
-We will use [traefik](https://traefik.io) as a reverse proxy to route requests into your volition mining node. Traefik will create subdomains per our docker containers and use LetsEncrypt to issue our SSL certificates. To validate domain owenrship, we'll use LetsEcnrypts CloudFlare DNS challenge.
-
-### CloudFlare Setup
+### Set Up CloudFlare
 
 First, if you do not already have a [CloudFlare](https://www.cloudflare.com/) account, create one and log in.
 
-Once logged in; add your domain to CloudFlare for DNS management.
-Cloudflare will instruct you to change your domain name servers, follow the instructions provided by CloudFlare.
+If you are creating a new CloudFlare account, you can choose their "free" plan (which may be listed below the paid plans on their welcome screen; look for it).
+
+Once logged in, add your domain to CloudFlare for DNS management. Cloudflare will instruct you to change your domain name servers, follow the instructions provided by CloudFlare. You can choose the default settings; the main thing right now is to update your domain account (with your registrar) to use CloudFlare's nameservers and wait for the changes to go thourgh. This could take up to 24 hours. Once this is done, we can modify the DNS settings.
 
 Once the domain has been added to CloudFlare, we need to change some settings.
+
 Click on the domain name to open its settings.
 
 ![CloudFlare Domain Selection](images/cloudflare_domain_selection.png)
@@ -80,7 +55,7 @@ Click on the DNS options button.
 Make the following changes:
 
 * Verify the A record IP is set correctly
-* Change the root domain records Proxy status to DNS only
+* Change the root domain records Proxy status to DNS only (by clicking 'edit' and then the orange cloud icon; it should turn gray)
 * Add a new CNAME record
   * Name: *
   * Target: your domain name
@@ -108,6 +83,23 @@ Click on API Tokens -> Global Api Key -> View, and copy the Global API Key, we'l
 
 ![CloudFlare API Key](images/cloudflare_api_key.png)
 
+## Prepare Your Server
+
+```
+sudo apt update
+```
+```
+sudo apt install curl docker docker-compose git openssl vim
+```
+
+## Clone this repo to your server
+
+Clone this repo to your server by doing:
+
+```
+git pull https://github.com/cryptogogue/vol-node-setup.git
+```
+
 ## Docker Setup
 
 We'll create two networks to serve both the reverse proxy, and secure docker.sock container. 
@@ -123,13 +115,14 @@ docker network create --gateway 192.168.91.1 --subnet 192.168.91.0/24 socket_pro
 
 Find a spot on your server where you'd like the docker container data to persist. In my server setup I set it to `/mnt/data/docker` but you can use whatever you want. We'll use the notation `$DOCKERDIR` to show the relative path to wherever you want to store your docker volumes.
 
-*You can set an environment variable DOCKERDIR to make these commands copy pasteable*
+You can set an environment variable DOCKERDIR to make these commands copy pasteable:
+```
+export DOCKERDIR=/mnt/data/docker
+```
 
 ### Create your docker data directory
 
-
 > **Run these commands from the root of this repository**
-
 
 Create the required folders for the docker volition stack.
 
@@ -159,7 +152,7 @@ Copy the rule files into the traefik2/rules directory.
 cp traefik2/rules/* $DOCKERDIR/traefik2/rules/
 ```
 
-Edit middlewares.toml and replace `[YOURDOMAINHERE]` with your root domain.
+Edit $DOCKERDIR/traefik2/rules/middlewares.toml and replace `[YOURDOMAINHERE]` with your root domain.
 (example: `customFrameOptionsValue = "allow-from https:[YOURDOMAINHERE]"`
  -> `customFrameOptionsValue = "allow-from https:cuken.net"`) (Do not include // in the url)
 
@@ -169,7 +162,7 @@ Copy the enviornment file into the docker data directory
 cp .env.example $DOCKERDIR/.env
 ```
 
-Edit the .env file with your information.
+Edit the .env file with your information. If you do not have a static IP, see above to get your CloudFlare global API key. To get the correct value for TZ (for example, TZ="America/Vancouver"), check https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
 
 Copy the docker-compose.yml into the docker data directory
 
@@ -235,15 +228,7 @@ Finally, use curl to fetch the genesis block:
 curl <URL of genesis block> -o $DOCKERDIR/volition/genesis.json
 ```
 
-## Upgrade Your Account
-
-Once your node is connected to the network, you are ready to upgrade your account and start mining.
-
-At the time of this writing, self-serve mining accounts aren't supported. Those will entail obtaining a verified digital identity from a third party.
-
-To upgrade your account, ask someone with an administrator account to help you. You will need to send them the URL of your mining node.
-
-If you don't need to send miner control commands, you are done and can take a break.
+For example, the open beta genesis block is located at https://raw.githubusercontent.com/cryptogogue/vol-blocks/main/open-beta.json.
 
 ## Starting the Node
 
@@ -253,6 +238,14 @@ Docker-compose will manage the container state, and rebuild the images as needed
 cd $DOCKERDIR
 docker-compose up -d
 ```
+
+Each service will be mounted at a subdomain. So if your domain name is "bulbousbouffant.com", you would find Dozzle at "dozzle.bulbousbouffant.com":
+
+https://dozzle.bulbousbouffant.com
+https://volition.bulbousbouffant.com
+https://traefik.bulbousbouffant.com
+
+It may take a little while for your CloudFlare to provision your SSL certificates, so if you don't see the services appear right away, try back in five or ten minutes.
 
 ## Updating the Node
 
@@ -265,6 +258,16 @@ cd $DOCKERDIR
 docker-compose pull
 docker-compose up -d
 ```
+
+## Upgrade Your Account
+
+Once your node is connected to the network, you are ready to upgrade your account and start mining.
+
+At the time of this writing, self-serve mining accounts aren't supported. Those will entail obtaining a verified digital identity from a third party.
+
+To upgrade your account, ask someone with an administrator account to help you. You will need to send them the URL of your mining node.
+
+If you don't need to send miner control commands, you are done and can take a break.
 
 # Submit Feedback / Bugs
 
