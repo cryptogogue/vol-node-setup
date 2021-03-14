@@ -6,6 +6,16 @@ source ${SCRIPT_HOME}/.env
 
 KEYS_FOLDER="$1"
 
+if [[ -z "${KEYS_FOLDER}" ]]; then
+
+    if [[ -z "${DOCKERDIR}" ]]; then
+        echo "DOCKERDIR is undefined; default '/mnt/data/docker' will be used."
+        DOCKERDIR=/mnt/data/docker
+    fi
+
+    KEYS_FOLDER=$DOCKERDIR/volition/keys
+fi
+
 if [ -d ${KEYS_FOLDER} ]; then
 	echo "Keys folder already exists; please remove or rename it."
 	exit 1
