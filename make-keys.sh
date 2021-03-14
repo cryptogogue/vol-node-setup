@@ -2,8 +2,6 @@
 
 SCRIPT_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-source ${SCRIPT_HOME}/.env
-
 KEYS_FOLDER="$1"
 
 if [[ -z "${KEYS_FOLDER}" ]]; then
