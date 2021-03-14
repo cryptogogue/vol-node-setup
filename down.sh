@@ -5,6 +5,6 @@ if [[ -z "${DOCKERDIR}" ]]; then
     DOCKERDIR=/mnt/data/docker
 fi
 
-pushd ${SCRIPT_HOME}
+pushd ${DOCKERDIR}
     docker-compose down
 popd
