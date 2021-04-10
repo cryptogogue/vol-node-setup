@@ -11,7 +11,9 @@
 
   [http.middlewares.middlewares-secure-headers]
     [http.middlewares.middlewares-secure-headers.headers]
-      accessControlAllowMethods= ["GET", "OPTIONS", "PUT"]
+      accessControlAllowMethods = ["GET", "OPTIONS", "PUT"]
+      accessControlAllowHeaders = "Accept, Content-Type, Origin, X-Requested-With"
+      accessControlAllowOriginList = "*"
       accessControlMaxAge = 100
       hostsProxyHeaders = ["X-Forwarded-Host"]
       sslRedirect = true
@@ -19,7 +21,7 @@
       stsIncludeSubdomains = true
       stsPreload = true
       forceSTSHeader = true
-      customFrameOptionsValue = "allow-from https:[YOURDOMAINHERE].net"
+      customFrameOptionsValue = "SAMEORIGIN"
       contentTypeNosniff = true
       browserXssFilter = true
       referrerPolicy = "same-origin"

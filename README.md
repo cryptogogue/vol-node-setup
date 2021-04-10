@@ -152,10 +152,6 @@ Copy the rule files into the traefik2/rules directory.
 cp traefik2/rules/* $DOCKERDIR/traefik2/rules/
 ```
 
-Edit $DOCKERDIR/traefik2/rules/middlewares.toml and replace `[YOURDOMAINHERE]` with your root domain.
-(example: `customFrameOptionsValue = "allow-from https:[YOURDOMAINHERE]"`
- -> `customFrameOptionsValue = "allow-from https:cuken.net"`) (Do not include // in the url)
-
 Copy the enviornment file into the docker data directory
 
 ```
