@@ -12,41 +12,38 @@ do
 done
 shift $((OPTIND -1))
 
-DOCKERDIR=$1
+PROJECTDIR=$1
 
-if [[ -z "${DOCKERDIR}" ]]; then
-    echo "DOCKERDIR is undefined; default '/mnt/data/docker' will be used."
-    DOCKERDIR=/mnt/data/docker
+if [[ -z "$PROJECTDIR" ]]; then
+    echo "PROJECTDIR is undefined; default '/mnt/data/docker' will be used."
+    PROJECTDIR=/mnt/data/docker
 fi
 
-if [ -d ${DOCKERDIR} ]; then
-    echo "DOCKERDIR already exists; please remove or rename it."
+if [ -d "$PROJECTDIR" ]; then
+    echo "PROJECTDIR already exists; please remove or rename it."
     exit 1
 fi
 
-echo $DOCKERDIR
-echo $USE_CLOUDFLARE
-
 pushd ${SCRIPT_HOME}
-    mkdir -p $DOCKERDIR/{traefik2/{acme,rules},volition}
-    touch $DOCKERDIR/traefik2/acme/acme.json
-    chmod 600 $DOCKERDIR/traefik2/acme/acme.json
-    touch $DOCKERDIR/traefik2/traefik.log
+    mkdir -p $PROJECTDIR/{traefik2/{acme,rules},volition}
+    touch $PROJECTDIR/traefik2/acme/acme.json
+    chmod 600 $PROJECTDIR/traefik2/acme/acme.json
+    touch $PROJECTDIR/traefik2/traefik.log
 
-    cp $SCRIPT_HOME/support/traefik2/rules/* $DOCKERDIR/traefik2/rules/
-    cp $SCRIPT_HOME/support/docker-compose.yml $DOCKERDIR/docker-compose.yml
-    cp $SCRIPT_HOME/support/volition.ini.example $DOCKERDIR/volition/volition.ini
+    cp $SCRIPT_HOME/support/traefik2/rules/* $PROJECTDIR/traefik2/rules/
+    cp $SCRIPT_HOME/support/docker-compose.yml $PROJECTDIR/docker-compose.yml
+    cp $SCRIPT_HOME/support/volition.ini.example $PROJECTDIR/volition/volition.ini
 
-    cp $SCRIPT_HOME/support/down.sh $DOCKERDIR/down.sh
-    cp $SCRIPT_HOME/support/up.sh $DOCKERDIR/up.sh
-    cp $SCRIPT_HOME/support/make-keys.sh $DOCKERDIR/make-keys.sh
-    cp $SCRIPT_HOME/support/make-networks.sh $DOCKERDIR/make-networks.sh
+    cp $SCRIPT_HOME/support/down.sh $PROJECTDIR/down.sh
+    cp $SCRIPT_HOME/support/up.sh $PROJECTDIR/up.sh
+    cp $SCRIPT_HOME/support/make-keys.sh $PROJECTDIR/make-keys.sh
+    cp $SCRIPT_HOME/support/make-networks.sh $PROJECTDIR/make-networks.sh
 
-    if [ "${USE_CLOUDFLARE}" ]; then
-        cp $SCRIPT_HOME/support/docker-compose.cloudflare.yml $DOCKERDIR/docker-compose.override.yml
-        cp $SCRIPT_HOME/support/.env.cloudflare.example $DOCKERDIR/.env
+    if [ "$USE_CLOUDFLARE" -eq "0" ]; then
+        cp $SCRIPT_HOME/support/docker-compose.letsencrypt.yml $PROJECTDIR/docker-compose.override.yml
+        cp $SCRIPT_HOME/support/.env.letsencrypt.example $PROJECTDIR/.env
     else
-        cp $SCRIPT_HOME/support/docker-compose.letsencrypt.yml $DOCKERDIR/docker-compose.override.yml
-        cp $SCRIPT_HOME/support/.env.letsencrypt.example $DOCKERDIR/.env
+        cp $SCRIPT_HOME/support/docker-compose.cloudflare.yml $PROJECTDIR/docker-compose.override.yml
+        cp $SCRIPT_HOME/support/.env.cloudflare.example $PROJECTDIR/.env
     fi
 popd
