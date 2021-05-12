@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+
+  # Traefik 2 - Reverse Proxy
+  traefik:
+    command:
+      - --entrypoints.https.http.tls.options=tls-opts@file
+      - --entrypoints.https.http.tls.certresolver=letsencrypt
+      - --certificatesresolvers.letsencrypt.acme.email=$ACME_EMAIL
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http
+      - --certificatesresolvers.letsencrypt.acme.storage=/acme.json
+    labels:
+      - traefik.http.routers.traefik-rtr.tls.certresolver=letsencrypt

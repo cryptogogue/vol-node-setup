@@ -39,21 +39,11 @@ services:
       - --providers.docker=true
       - --providers.docker.endpoint=tcp://socket-proxy:2375
       - --providers.docker.exposedByDefault=false
-      - --entrypoints.https.http.tls.options=tls-opts@file
-      - --entrypoints.https.http.tls.certresolver=dns-cloudflare
-      - --entrypoints.https.http.tls.domains[0].main=$DOMAINNAME
-      - --entrypoints.https.http.tls.domains[0].sans=*.$DOMAINNAME
       - --providers.docker.network=t2_proxy
       - --providers.docker.swarmMode=false
       - --providers.file.directory=/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
 #      - --providers.file.filename=/path/to/file # Load dynamic configuration from a file.
       - --providers.file.watch=true # Only works on top level files in the rules folder
-#      - --certificatesResolvers.dns-cloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
-      - --certificatesResolvers.dns-cloudflare.acme.email=$CLOUDFLARE_EMAIL
-      - --certificatesResolvers.dns-cloudflare.acme.storage=/acme.json
-      - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.provider=cloudflare
-      - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53,1.0.0.1:53
-      - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.delayBeforeCheck=90
     networks:
       t2_proxy:
         ipv4_address: 192.168.90.254
@@ -74,14 +64,11 @@ services:
         #protocol: tcp
         #mode: host
     volumes:
-      - $DOCKERDIR/traefik2/rules:/rules
+      - ./traefik2/rules:/rules
         #- /var/run/docker.sock:/var/run/docker.sock:ro <-Unused because we're using the more secure socket_proxy
-      - $DOCKERDIR/traefik2/acme/acme.json:/acme.json
-      - $DOCKERDIR/traefik2/traefik.log:/traefik.log
-      - $DOCKERDIR/shared:/shared
-    environment:
-      - CF_API_EMAIL=$CLOUDFLARE_EMAIL
-      - CF_API_KEY=$CLOUDFLARE_API_KEY
+      - ./traefik2/acme/acme.json:/acme.json
+      - ./traefik2/traefik.log:/traefik.log
+      - ./shared:/shared
     labels:
       - "traefik.enable=true"
       # HTTP-to-HTTPS Redirect
@@ -93,11 +80,6 @@ services:
       - "traefik.http.routers.traefik-rtr.entrypoints=https"
       - "traefik.http.routers.traefik-rtr.rule=Host(`$DOCKER_DOMAIN_TRAEFIK`)"
       - "traefik.http.routers.traefik-rtr.tls=true"
-      - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare" # Comment out this line after first run of traefik to force the use of wildcard certs
-      - "traefik.http.routers.traefik-rtr.tls.domains[0].main=$DOMAINNAME"
-      - "traefik.http.routers.traefik-rtr.tls.domains[0].sans=*.$DOMAINNAME"
-  #   - "traefik.http.routers.traefik-rtr.tls.domains[1].main=$SECONDDOMAINNAME" # Pulls main cert for second domain
-  #   - "traefik.http.routers.traefik-rtr.tls.domains[1].sans=*.$SECONDDOMAINNAME" # Pulls wildcard cert for second domain
       ## Services - API
       - "traefik.http.routers.traefik-rtr.service=api@internal"
       ## Middlewares
@@ -229,17 +211,6 @@ services:
       - "traefik.http.routers.glances-rtr.service=glances-svc"
       - "traefik.http.services.glances-svc.loadbalancer.server.port=61208"
 
-  # CloudFlare DDNS updater
-  #cloudflare-ddns:
-  #  container_name: cloudflare-ddns
-  #  image: oznu/cloudflare-ddns:latest
-  #  restart: unless-stopped
-  #  environment:
-  #    - EMAIL=$CLOUDFLARE_EMAIL
-  #    - API_KEY=$CLOUDFLARE_API_KEY
-  #    - ZONE=$DOMAINNAME
-  #    - PROXIED=false
-
 # Volition
   volition:
     image: $DOCKER_IMAGE_VOLITION
@@ -248,7 +219,7 @@ services:
     networks:
       - t2_proxy
     volumes:
-      - $DOCKERDIR/volition:/var/lib/volition
+      - ./volition:/var/lib/volition
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.volition-rtr.entrypoints=https"

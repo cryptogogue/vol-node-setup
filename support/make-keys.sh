@@ -5,13 +5,7 @@ SCRIPT_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 KEYS_FOLDER="$1"
 
 if [[ -z "${KEYS_FOLDER}" ]]; then
-
-    if [[ -z "${DOCKERDIR}" ]]; then
-        echo "DOCKERDIR is undefined; default '/mnt/data/docker' will be used."
-        DOCKERDIR=/mnt/data/docker
-    fi
-
-    KEYS_FOLDER=$DOCKERDIR/volition/keys
+    KEYS_FOLDER=${SCRIPT_HOME}/volition/keys
 fi
 
 if [ -d ${KEYS_FOLDER} ]; then
