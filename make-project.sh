@@ -40,10 +40,10 @@ pushd ${SCRIPT_HOME}
     cp $SCRIPT_HOME/support/make-networks.sh $PROJECTDIR/make-networks.sh
 
     if [ "$USE_CLOUDFLARE" -eq "0" ]; then
-        cp $SCRIPT_HOME/support/docker-compose.letsencrypt.yml $PROJECTDIR/docker-compose.override.yml
+        cp $SCRIPT_HOME/support/compose-traefik/docker-compose.letsencrypt.yml $PROJECTDIR/docker-compose.override.yml
         cp $SCRIPT_HOME/support/.env.letsencrypt.example $PROJECTDIR/.env
     else
-        cp $SCRIPT_HOME/support/docker-compose.cloudflare.yml $PROJECTDIR/docker-compose.override.yml
+        cp $SCRIPT_HOME/support/compose-traefik/docker-compose.cloudflare.yml $PROJECTDIR/docker-compose.override.yml
         cp $SCRIPT_HOME/support/.env.cloudflare.example $PROJECTDIR/.env
     fi
 popd

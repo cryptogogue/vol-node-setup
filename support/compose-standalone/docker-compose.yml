@@ -1,0 +1,30 @@
+version: "3.7"
+
+networks:
+  t2_proxy:
+    external:
+      name: t2_proxy
+  socket_proxy:
+    external:
+      name: socket_proxy
+  default:
+    driver: bridge
+
+services:
+
+# Volition
+  volition:
+    image: $DOCKER_IMAGE_VOLITION
+    container_name: $DOCKER_VOLITION_CONTAINER
+    restart: unless-stopped
+    networks:
+      - t2_proxy
+    volumes:
+      - ./volition:/var/lib/volition
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.$DOCKER_VOLITION_CONTAINER.rule=Host(`$DOCKER_DOMAIN_VOLITION`)
+      - traefik.http.routers.$DOCKER_VOLITION_CONTAINER.tls=true
+      - traefik.http.routers.$DOCKER_VOLITION_CONTAINER.tls.certresolver=letsencrypt
+      - traefik.http.routers.$DOCKER_VOLITION_CONTAINER-rtr.service=$DOCKER_VOLITION_CONTAINER-svc
+      - traefik.http.services.$DOCKER_VOLITION_CONTAINER-svc.loadbalancer.server.port=9090
