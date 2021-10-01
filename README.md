@@ -97,7 +97,7 @@ sudo apt install curl docker docker-compose git openssl vim
 Clone this repo to your server by doing:
 
 ```
-git pull https://github.com/cryptogogue/vol-node-setup.git
+git clone https://github.com/cryptogogue/vol-node-setup.git
 ```
 
 ## Docker Setup
