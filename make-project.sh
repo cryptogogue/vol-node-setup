@@ -31,7 +31,7 @@ pushd ${SCRIPT_HOME}
     touch $PROJECTDIR/traefik2/traefik.log
 
     cp $SCRIPT_HOME/support/traefik2/rules/* $PROJECTDIR/traefik2/rules/
-    cp $SCRIPT_HOME/support/docker-compose.yml $PROJECTDIR/docker-compose.yml
+    cp $SCRIPT_HOME/support/compose-traefik/docker-compose.yml $PROJECTDIR/docker-compose.yml
     cp $SCRIPT_HOME/support/volition.ini.example $PROJECTDIR/volition/volition.ini
 
     cp $SCRIPT_HOME/support/down.sh $PROJECTDIR/down.sh
