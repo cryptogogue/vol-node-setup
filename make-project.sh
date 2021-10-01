@@ -31,7 +31,6 @@ pushd ${SCRIPT_HOME}
     touch $PROJECTDIR/traefik2/traefik.log
 
     cp $SCRIPT_HOME/support/traefik2/rules/* $PROJECTDIR/traefik2/rules/
-    cp $SCRIPT_HOME/support/compose-traefik/docker-compose.yml $PROJECTDIR/docker-compose.yml
     cp $SCRIPT_HOME/support/volition.ini.example $PROJECTDIR/volition/volition.ini
 
     cp $SCRIPT_HOME/support/down.sh $PROJECTDIR/down.sh
@@ -40,10 +39,10 @@ pushd ${SCRIPT_HOME}
     cp $SCRIPT_HOME/support/make-networks.sh $PROJECTDIR/make-networks.sh
 
     if [ "$USE_CLOUDFLARE" -eq "0" ]; then
-        cp $SCRIPT_HOME/support/compose-traefik/docker-compose.letsencrypt.yml $PROJECTDIR/docker-compose.override.yml
+        cp $SCRIPT_HOME/support/compose-traefik/docker-compose.letsencrypt.yml $PROJECTDIR/docker-compose.yml
         cp $SCRIPT_HOME/support/.env.letsencrypt.example $PROJECTDIR/.env
     else
-        cp $SCRIPT_HOME/support/compose-traefik/docker-compose.cloudflare.yml $PROJECTDIR/docker-compose.override.yml
+        cp $SCRIPT_HOME/support/compose-traefik/docker-compose.cloudflare.yml $PROJECTDIR/docker-compose.yml
         cp $SCRIPT_HOME/support/.env.cloudflare.example $PROJECTDIR/.env
     fi
 popd
