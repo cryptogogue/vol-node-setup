@@ -239,8 +239,17 @@ Click on API Tokens -> Global Api Key -> View, and copy the Global API Key.
 
 ![CloudFlare API Key](images/cloudflare_api_key.png)
 
-This is the API key for the CLOUDFLARE_API_KEY variable in the .env file in your docker directory:
+This is the API key for the .env file in your docker directory. Edit the file:
 
 ```
 vi $DOCKERDIR/.env
 ```
+
+And set the Cloudflare environment variables:
+
+```
+CLOUDFLARE_EMAIL = <the email address associated with your Cloudflare account>
+CLOUDFLARE_API_KEY = <the Cloudflare API key>
+```
+
+That should be all there is to it. Continue the node setup process described earlier in this document.
