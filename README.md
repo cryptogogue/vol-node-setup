@@ -84,7 +84,7 @@ Edit the docker .env file and add your information:
 vi $DOCKERDIR/.env
 ```
 
-To get the correct value for TZ (for example, TZ="America/Vancouver"), check https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.If you are using Cloudflare and need an API key, see the appendix on Cloudflare setup.
+To get the correct value for TZ (for example, TZ="America/Vancouver"), see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If you are using Cloudflare and need an API key, see the appendix on Cloudflare setup.
 
 Now configure the node itself:
 
@@ -138,9 +138,9 @@ $DOCKERDIR/down.sh
 
 Each service will be mounted at a subdomain. So if your domain name is "bulbousbouffant.com", you would find Dozzle at "dozzle.bulbousbouffant.com":
 
-https://dozzle.bulbousbouffant.com
-https://volition.bulbousbouffant.com
-https://traefik.bulbousbouffant.com
+* https://dozzle.bulbousbouffant.com
+* https://traefik.bulbousbouffant.com
+* https://volition.bulbousbouffant.com
 
 If you are using Cloudflare, it may take a little while to provision your SSL certificates, so if you don't see the services appear right away, try back in five or ten minutes.
 
@@ -153,7 +153,7 @@ At the time of this writing, self-serve mining accounts aren't supported. Those 
 To upgrade your account, ask someone with an administrator account to help you. You will need to send them the URL of your mining node. Alternatively, you may be able to use the Volition Discord bot, which is occasionally available in the #volbot channel:
 
 ```
-volbot, upgade <URL of your mining node>
+volbot, upgrade <URL of your mining node>
 ```
 
 That's it. If everything worked, a miner is you.
@@ -196,7 +196,7 @@ First, if you do not already have a [CloudFlare](https://www.cloudflare.com/) ac
 
 If you are creating a new CloudFlare account, you can choose their "free" plan (which may be listed below the paid plans on their welcome screen; look for it).
 
-Once logged in, add your domain to CloudFlare for DNS management. Cloudflare will instruct you to change your domain name servers, follow the instructions provided by CloudFlare. You can choose the default settings; the main thing right now is to update your domain account (with your registrar) to use CloudFlare's nameservers and wait for the changes to go thourgh. This could take up to 24 hours. Once this is done, we can modify the DNS settings.
+Once logged in, add your domain to CloudFlare for DNS management. Cloudflare will instruct you to change your domain name servers, follow the instructions provided by CloudFlare. You can choose the default settings; the main thing right now is to update your domain account (with your registrar) to use CloudFlare's nameservers and wait for the changes to go through. This could take up to 24 hours. Once this is done, we can modify the DNS settings.
 
 Once the domain has been added to CloudFlare, we need to change some settings.
 
@@ -219,7 +219,6 @@ Make the following changes:
   * Proxy status: DNS Only
 * Make sure your domain host is using the Cloudflare nameservers shown below
   
-
 Your settings should look similiar to this:
 
 ![CloudFlare DNS Settings](images/cloudflare_dns_settings.png)
@@ -236,9 +235,12 @@ Click on your account icon on the top right of the screen and click My Profile.
 
 ![CloudFlare Account Home](images/cloudflare_account_profile.png)
 
-Click on API Tokens -> Global Api Key -> View, and copy the Global API Key, we'll use it later to set up our DDNS service.
+Click on API Tokens -> Global Api Key -> View, and copy the Global API Key.
 
 ![CloudFlare API Key](images/cloudflare_api_key.png)
 
+This is the API key for the CLOUDFLARE_API_KEY variable in the .env file in your docker directory:
 
-
+```
+vi $DOCKERDIR/.env
+```
