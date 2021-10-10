@@ -2,8 +2,6 @@
 
 This guide assumes that you will run Volition on a dedicated server or VPS. Our canonical spec (as of this writing) is an [Ionos VPS XXL](https://www.ionos.com/servers/vps#packages) running Ubuntu 20.04. Feel free to experiement with other configurations, but we may not be able to help you troubleshoot if you get stuck. We find the node is primarily bottlenecked by storage speed and size. CPU and memory usage is still (relatively) light. Storage speed, in particular, can have a big impact and cause your node to mine dramatically fewer blocks.
 
-Before you begin, if you don't already have one, or if you want to use a different account for mining, provision a new Volition account and rename it to whatever you want to use as your miner name. Volition will eventually support renaming mining accounts, but for beta it does not, so be sure your account is named what you want it to be. Also, make sure know where to find the [genesis block](https://raw.githubusercontent.com/cryptogogue/vol-blocks/main/volition-ccg/ccg-open-beta.json) for whatever network you plan to join.
-
 Commands listed in blocks shown below should be run on the server hosting the volition mining node:
 
 ```
@@ -26,13 +24,19 @@ We use [traefik](https://traefik.io) as a reverse proxy to route requests into y
 
 ## Prereqs
 
+Before you begin, if you don't already have one, or if you want to use a different account for mining, provision a new Volition account and rename it to whatever you want to use as your miner name. Volition will eventually support renaming mining accounts, but for beta it does not, so be sure your account is named what you want it to be. Also, make sure know where to find the [genesis block](https://raw.githubusercontent.com/cryptogogue/vol-blocks/main/volition-ccg/ccg-open-beta.json) for whatever network you plan to join.
+
+You will also need:
+
 - A domain name.
 - A Volition account with the name you want to use for your miner.
 - The URL of the genesis block for whatever network you intend to join.
 - Port 443 open on the server used to host the mining node.
 - A static IP address OR the patience to setup Cloudflare.
 
-Before starting, prepare your server:
+If you have a static IP, follow your domain host's instructions to point the domain name at your server's IP. If you don't have a static IP, see the Cloudflare setup appendix at the end of this document.
+
+To prepare your server:
 
 ```
 sudo apt update
