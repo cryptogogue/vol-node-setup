@@ -89,7 +89,7 @@ To get the correct value for TZ (for example, TZ="America/Vancouver"), see https
 Now configure the node itself:
 
 ```
-vi $DOCKERDIR/volition.ini
+vi $DOCKERDIR/volition/volition.ini
 ```
 
 Just add the name of the account you plan to use for mining and leave everything else alone:
