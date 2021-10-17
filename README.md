@@ -54,7 +54,7 @@ If you have trouble setting up git, we can't help you. If you get stuck, you can
 ## Setup
 
 
-From inside the vol-node-setup folder, run the make-project.sh helper script:
+1. From inside the vol-node-setup folder, run the make-project.sh helper script:
 
 ```
 ./make-project.sh
@@ -72,19 +72,19 @@ If not do not have a static IP and plan to use Cloudflare, pass the '-c' flag to
 ./make-project.sh -c
 ```
 
-We'll use the notation `$DOCKERDIR` to show the relative path to wherever you want to store your docker directory. You can set an environment variable DOCKERDIR to make these commands copy pasteable:
+2. We'll use the notation `$DOCKERDIR` to show the relative path to wherever you want to store your docker directory. You can set an environment variable DOCKERDIR to make these commands copy pasteable:
 
 ```
 export DOCKERDIR=/mnt/data/docker
 ```
 
-Edit the docker .env file and add your information:
+3. Edit the docker .env file and add your information:
 
 ```
 vi $DOCKERDIR/.env
 ```
 
-To get the correct value for TZ (for example, TZ="America/Vancouver"), see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If you are using Cloudflare and need an API key, see the appendix on Cloudflare setup.
+4. To get the correct value for TZ (for example, TZ="America/Vancouver"), see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If you are using Cloudflare and need an API key, see the appendix on Cloudflare setup.
 
 Now configure the node itself:
 
@@ -92,13 +92,13 @@ Now configure the node itself:
 vi $DOCKERDIR/volition/volition.ini
 ```
 
-Just add the name of the account you plan to use for mining and leave everything else alone:
+5. Just add the name of the account you plan to use for mining and leave everything else alone:
 
 ```
 miner = <your miner account name>
 ```
 
-Generate the mining keys with the helper script:
+6. Generate the mining keys with the helper script:
 
 ```
 $DOCKERDIR/make-keys.sh
@@ -106,7 +106,7 @@ $DOCKERDIR/make-keys.sh
 
 The keys will be placed in $DOCKERDIR/volition/keys. Keep these safe and don't lose them.
 
-Use curl to fetch the genesis block:
+7. Use curl to fetch the genesis block:
 
 ```
 curl <URL of genesis block> -o $DOCKERDIR/volition/genesis.json
@@ -114,8 +114,7 @@ curl <URL of genesis block> -o $DOCKERDIR/volition/genesis.json
 
 For example, the open beta genesis block is located at https://raw.githubusercontent.com/cryptogogue/vol-blocks/main/volition-ccg/ccg-open-beta.json.
 
-
-Finally, use the helper script to provision the docker networks:
+8. Finally, use the helper script to provision the docker networks:
 
 ```
 $DOCKERDIR/make-networks.sh
@@ -123,7 +122,7 @@ $DOCKERDIR/make-networks.sh
 
 ## Starting the Node
 
-Run docker as a daemon:
+9. Run docker as a daemon:
 
 ```
 $DOCKERDIR/docker-compose up -d
@@ -146,7 +145,7 @@ If you are using Cloudflare, it may take a little while to provision your SSL ce
 
 ## Upgrade Your Account
 
-Once your node is connected to the network, you are ready to upgrade your account and start mining.
+10. Once your node is connected to the network, you are ready to upgrade your account and start mining.
 
 At the time of this writing, self-serve mining accounts aren't supported. Those will entail obtaining a verified digital identity from a third party.
 
