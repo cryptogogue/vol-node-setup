@@ -43,10 +43,10 @@ sudo apt update
 sudo apt install curl docker docker-compose git openssl vim
 ```
 
-[Set up your git account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) and clone this repo:
+Clone this repo:
 
 ```
-git clone git@github.com:cryptogogue/vol-node-setup.git
+git clone https://github.com/cryptogogue/vol-node-setup.git
 ```
 
 If you have trouble setting up git, we can't help you. If you get stuck, you can always download the repository as a .zip and manually copy it to your server.
