@@ -84,21 +84,23 @@ export DOCKERDIR=/mnt/data/docker
 vi $DOCKERDIR/.env
 ```
 
-4. To get the correct value for TZ (for example, TZ="America/Vancouver"), see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If you are using Cloudflare and need an API key, see the appendix on Cloudflare setup.
+Be sure to replace all instances of 'example.com' with your domain name.
 
-Now configure the node itself:
+To get the correct value for TZ (for example, TZ="America/Vancouver"), see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. If you are using Cloudflare and need an API key, see the appendix on Cloudflare setup.
+
+4. Now configure the node itself:
 
 ```
 vi $DOCKERDIR/volition/volition.ini
 ```
 
-5. Just add the name of the account you plan to use for mining and leave everything else alone:
+Just add the name of the account you plan to use for mining and leave everything else alone:
 
 ```
 miner = <your miner account name>
 ```
 
-6. Generate the mining keys with the helper script:
+5. Generate the mining keys with the helper script:
 
 ```
 $DOCKERDIR/make-keys.sh
@@ -106,7 +108,7 @@ $DOCKERDIR/make-keys.sh
 
 The keys will be placed in $DOCKERDIR/volition/keys. Keep these safe and don't lose them.
 
-7. Use curl to fetch the genesis block:
+6. Use curl to fetch the genesis block:
 
 ```
 curl <URL of genesis block> -o $DOCKERDIR/volition/genesis.json
@@ -114,7 +116,7 @@ curl <URL of genesis block> -o $DOCKERDIR/volition/genesis.json
 
 For example, the open beta genesis block is located at https://raw.githubusercontent.com/cryptogogue/vol-blocks/main/volition-ccg/ccg-open-beta.json.
 
-8. Finally, use the helper script to provision the docker networks:
+7. Finally, use the helper script to provision the docker networks:
 
 ```
 $DOCKERDIR/make-networks.sh
@@ -122,7 +124,7 @@ $DOCKERDIR/make-networks.sh
 
 ## Starting the Node
 
-9. Run docker as a daemon:
+8. Run docker as a daemon:
 
 ```
 $DOCKERDIR/docker-compose up -d
@@ -145,7 +147,7 @@ If you are using Cloudflare, it may take a little while to provision your SSL ce
 
 ## Upgrade Your Account
 
-10. Once your node is connected to the network, you are ready to upgrade your account and start mining.
+9. Once your node is connected to the network, you are ready to upgrade your account and start mining.
 
 At the time of this writing, self-serve mining accounts aren't supported. Those will entail obtaining a verified digital identity from a third party.
 
