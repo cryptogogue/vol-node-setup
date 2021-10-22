@@ -49,8 +49,6 @@ Clone this repo:
 git clone https://github.com/cryptogogue/vol-node-setup.git
 ```
 
-If you have trouble setting up git, we can't help you. If you get stuck, you can always download the repository as a .zip and manually copy it to your server.
-
 ## Setup
 
 
@@ -60,7 +58,7 @@ If you have trouble setting up git, we can't help you. If you get stuck, you can
 ./make-project.sh
 ```
 
-By default, the script will set use /mnt/data/docker as the docker directory. If you want it somewhere else:
+By default, the script will use /mnt/data/docker as the docker directory. If you want it somewhere else:
 
 ```
 ./make-project.sh -d /somewhere/else
